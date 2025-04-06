@@ -1,19 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, Search, Menu, Map, Settings, ChevronLeft, Plus, X, Trash2 } from 'lucide-react';
 
 export default function ExpenseTracker() {
-  // Sample data for trips
-  const [trips, setTrips] = useState([
+  // Default sample data
+  const defaultTrips = [
     { id: 1, name: 'Guatemala', total: 5268.20, dailyAvg: 239.46, currency: 'NZ$', endDate: '2023-03-24' },
     { id: 2, name: 'Sicily', total: 5677.05, dailyAvg: 258.05, currency: 'NZ$', endDate: '2023-05-15' },
     { id: 3, name: 'Japan', total: 6823.50, dailyAvg: 325.88, currency: 'NZ$', endDate: '2023-07-10' },
-  ]);
+  ];
   
-  // Current selected trip
-  const [selectedTrip, setSelectedTrip] = useState(trips[0]);
-  
-  // Sample data for expenses
-  const [expenses, setExpenses] = useState({
+  const defaultExpenses = {
     1: [
       { id: 1, date: '2023-03-19', name: 'Volcano Hike 🏔️', category: 'Activities', amount: 462.53, currency: 'NZ$', originalAmount: 287.00, originalCurrency: 'US$' },
       { id: 2, date: '2023-03-18', name: 'Cafe de Artista', category: 'Workspace', amount: 10.30, currency: 'NZ$', originalAmount: 53.00, originalCurrency: 'GTQ' },
@@ -32,6 +28,39 @@ export default function ExpenseTracker() {
       { id: 1, date: '2023-07-05', name: 'Tokyo Hotel', category: 'Accommodation', amount: 1250.00, currency: 'NZ$', originalAmount: 96500.00, originalCurrency: '¥' },
       { id: 2, date: '2023-07-06', name: 'Shinkansen to Kyoto', category: 'Transportation', amount: 178.50, currency: 'NZ$', originalAmount: 13760.00, originalCurrency: '¥' },
     ],
+  };
+  
+  // Initialize state from localStorage or use defaults
+  const [trips, setTrips] = useState(() => {
+    try {
+      const savedTrips = localStorage.getItem('trips');
+      return savedTrips ? JSON.parse(savedTrips) : defaultTrips;
+    } catch (error) {
+      console.error('Error loading trips from localStorage:', error);
+      return defaultTrips;
+    }
+  });
+  
+  const [expenses, setExpenses] = useState(() => {
+    try {
+      const savedExpenses = localStorage.getItem('expenses');
+      return savedExpenses ? JSON.parse(savedExpenses) : defaultExpenses;
+    } catch (error) {
+      console.error('Error loading expenses from localStorage:', error);
+      return defaultExpenses;
+    }
+  });
+  
+  // Current selected trip
+  const [selectedTrip, setSelectedTrip] = useState(() => {
+    try {
+      const savedSelectedTripId = localStorage.getItem('selectedTripId');
+      const id = savedSelectedTripId ? parseInt(savedSelectedTripId, 10) : 1;
+      return trips.find(trip => trip.id === id) || trips[0];
+    } catch (error) {
+      console.error('Error loading selectedTrip from localStorage:', error);
+      return trips[0];
+    }
   });
   
   // New expense entry values
@@ -45,6 +74,46 @@ export default function ExpenseTracker() {
   
   // Current view state (trips list, trip detail, new expense)
   const [currentView, setCurrentView] = useState('tripDetail'); // Can be 'tripsList', 'tripDetail', 'newExpense'
+  
+  // Save to localStorage whenever data changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('trips', JSON.stringify(trips));
+    } catch (error) {
+      console.error('Error saving trips to localStorage:', error);
+    }
+  }, [trips]);
+  
+  useEffect(() => {
+    try {
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+    } catch (error) {
+      console.error('Error saving expenses to localStorage:', error);
+    }
+  }, [expenses]);
+  
+  useEffect(() => {
+    try {
+      localStorage.setItem('selectedTripId', selectedTrip.id.toString());
+    } catch (error) {
+      console.error('Error saving selectedTripId to localStorage:', error);
+    }
+  }, [selectedTrip.id]);
+  
+  // Register service worker for offline access
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((registration) => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch((error) => {
+            console.log('ServiceWorker registration failed:', error);
+          });
+      });
+    }
+  }, []);
   
   // Get expenses for the selected trip
   const tripExpenses = expenses[selectedTrip.id] || [];
