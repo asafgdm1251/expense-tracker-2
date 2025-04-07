@@ -491,7 +491,10 @@ export default function ExpenseTracker() {
                     <div className="ml-4 flex-1">
                       <div 
                         className="font-medium cursor-pointer hover:text-blue-400"
-                        onClick={() => handleEditExpense(expense.id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent any parent click handlers
+                          handleEditExpense(expense.id);
+                        }}
                       >
                         {expense.name}
                       </div>
