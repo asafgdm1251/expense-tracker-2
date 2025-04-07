@@ -244,6 +244,48 @@ export default function ExpenseTracker() {
     setSelectedTrip(updatedTrip);
   };
   
+  // Edit trip name
+  const handleEditTripName = (tripId) => {
+    const tripToEdit = trips.find(trip => trip.id === tripId);
+    if (!tripToEdit) return;
+    
+    const newName = prompt("Edit trip name:", tripToEdit.name);
+    if (newName === null || newName.trim() === '') return; // User cancelled or entered empty name
+    
+    const updatedTrips = trips.map(trip => 
+      trip.id === tripId ? { ...trip, name: newName } : trip
+    );
+    
+    setTrips(updatedTrips);
+    
+    // Update selected trip if it's the one being edited
+    if (selectedTrip && selectedTrip.id === tripId) {
+      setSelectedTrip({ ...selectedTrip, name: newName });
+    }
+  };
+  
+  // Edit expense
+  const handleEditExpense = (expenseId) => {
+    if (!selectedTrip) return;
+    
+    const expenseToEdit = expenses[selectedTrip.id].find(exp => exp.id === expenseId);
+    if (!expenseToEdit) return;
+    
+    const newName = prompt("Edit expense name:", expenseToEdit.name);
+    if (newName === null || newName.trim() === '') return; // User cancelled or entered empty name
+    
+    const updatedTripExpenses = expenses[selectedTrip.id].map(exp => 
+      exp.id === expenseId ? { ...exp, name: newName } : exp
+    );
+    
+    const updatedExpenses = {
+      ...expenses,
+      [selectedTrip.id]: updatedTripExpenses
+    };
+    
+    setExpenses(updatedExpenses);
+  };
+  
   // Delete trip
   const handleDeleteTrip = (tripId) => {
     // This function is now only called after confirmation has already been shown
@@ -275,9 +317,11 @@ export default function ExpenseTracker() {
     const maxId = trips.length > 0 ? Math.max(...trips.map(t => t.id)) : 0;
     const newId = maxId + 1;
     
+    const tripName = prompt("Enter trip name:", "New Trip") || "New Trip";
+    
     const newTrip = {
       id: newId,
-      name: 'New Trip',
+      name: tripName,
       total: 0,
       dailyAvg: 0,
       currency: 'ILS'
@@ -340,7 +384,15 @@ export default function ExpenseTracker() {
                 }}
               >
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">{trip.name}</h2>
+                  <h2 
+                    className="text-lg font-semibold cursor-pointer hover:text-blue-400" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditTripName(trip.id);
+                    }}
+                  >
+                    {trip.name}
+                  </h2>
                   <div className="flex items-center">
                     <div className="text-right mr-3">
                       <div className="text-xl font-semibold">{trip.currency} {trip.total.toFixed(2)}</div>
@@ -399,7 +451,10 @@ export default function ExpenseTracker() {
             >
               <Menu size={20} />
             </button>
-            <h1 className="text-xl font-semibold flex-1 text-center">
+            <h1 
+              className="text-xl font-semibold flex-1 text-center cursor-pointer hover:text-blue-400"
+              onClick={() => handleEditTripName(selectedTrip.id)}
+            >
               {selectedTrip.name || 'My Trip'}
             </h1>
             <div className="w-8"></div> {/* Empty space for balance */}
@@ -434,7 +489,12 @@ export default function ExpenseTracker() {
                     {getCategoryIcon(expense.category)}
                     
                     <div className="ml-4 flex-1">
-                      <div className="font-medium">{expense.name}</div>
+                      <div 
+                        className="font-medium cursor-pointer hover:text-blue-400"
+                        onClick={() => handleEditExpense(expense.id)}
+                      >
+                        {expense.name}
+                      </div>
                       <div className="text-sm text-gray-400">{expense.category}</div>
                     </div>
                     
