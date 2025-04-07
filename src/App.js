@@ -4,9 +4,9 @@ import { Calendar, Menu, ChevronLeft, Plus, X, Trash2 } from 'lucide-react';
 export default function ExpenseTracker() {
   // Default sample data
   const defaultTrips = [
-    { id: 1, name: 'Guatemala', total: 5268.20, dailyAvg: 239.46, currency: 'ILS', endDate: '2023-03-24' },
-    { id: 2, name: 'Sicily', total: 5677.05, dailyAvg: 258.05, currency: 'ILS', endDate: '2023-05-15' },
-    { id: 3, name: 'Japan', total: 6823.50, dailyAvg: 325.88, currency: 'ILS', endDate: '2023-07-10' },
+    { id: 1, name: 'Guatemala', total: 5268.20, dailyAvg: 239.46, currency: 'ILS' },
+    { id: 2, name: 'Sicily', total: 5677.05, dailyAvg: 258.05, currency: 'ILS' },
+    { id: 3, name: 'Japan', total: 6823.50, dailyAvg: 325.88, currency: 'ILS' },
   ];
   
   const defaultExpenses = {
@@ -280,8 +280,7 @@ export default function ExpenseTracker() {
       name: 'New Trip',
       total: 0,
       dailyAvg: 0,
-      currency: 'ILS',
-      endDate: new Date().toISOString().substring(0, 10)
+      currency: 'ILS'
     };
     
     setTrips([...trips, newTrip]);
@@ -345,7 +344,6 @@ export default function ExpenseTracker() {
                   <div className="flex items-center">
                     <div className="text-right mr-3">
                       <div className="text-xl font-semibold">{trip.currency} {trip.total.toFixed(2)}</div>
-                      <div className="text-sm text-gray-400">Trip ended on {trip.endDate}</div>
                     </div>
                     <button 
                       className="p-2 text-red-500"
@@ -412,22 +410,15 @@ export default function ExpenseTracker() {
             <div className="flex-1">
               <div className="text-sm text-gray-400">Total</div>
               <div className="text-2xl font-semibold">
-                {selectedTrip.currency || 'NZ$'} {(selectedTrip.total || 0).toFixed(2)}
+                {selectedTrip.currency || 'ILS'} {(selectedTrip.total || 0).toFixed(2)}
               </div>
             </div>
             <div className="flex-1 text-right">
               <div className="text-sm text-gray-400">Daily Average</div>
               <div className="text-2xl font-semibold">
-                {selectedTrip.currency || 'NZ$'} {selectedTrip.dailyAvg || '0.00'}
+                {selectedTrip.currency || 'ILS'} {selectedTrip.dailyAvg || '0.00'}
               </div>
             </div>
-          </div>
-          
-          {/* Trip End Date */}
-          <div className="flex items-center p-4 border-b border-gray-800 text-sm text-gray-400">
-            <span className="mr-2">🏁</span>
-            <span>Trip ended on {selectedTrip.endDate || 'N/A'}</span>
-            <button className="ml-auto text-blue-400">Edit Dates</button>
           </div>
           
           {/* Expenses List */}
@@ -534,7 +525,7 @@ export default function ExpenseTracker() {
                 className="bg-transparent text-4xl w-40 text-right font-bold focus:outline-none"
                 placeholder="0.00"
               />
-                <div className="ml-2">
+              <div className="ml-2">
                 <div className="text-lg font-bold">{newExpense.currency}</div>
                 <div className="text-xs text-gray-400">ILS = {newExpense.currency} 1.00</div>
               </div>
@@ -615,7 +606,7 @@ export default function ExpenseTracker() {
                   amount: '',
                   category: 'Activities',
                   date: new Date().toISOString().substring(0, 10),
-                  currency: 'DKK',
+                  currency: 'ILS',
                 });
               }}
             >
