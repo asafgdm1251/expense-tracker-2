@@ -249,18 +249,23 @@ export default function ExpenseTracker() {
     const tripToEdit = trips.find(trip => trip.id === tripId);
     if (!tripToEdit) return;
     
-    const newName = prompt("Edit trip name:", tripToEdit.name);
-    if (newName === null || newName.trim() === '') return; // User cancelled or entered empty name
+    // Mobile-friendly alternative to prompt
+    const newName = window.prompt("Edit trip name:", tripToEdit.name);
+    if (newName === null) return; // User cancelled
+    
+    // Allow empty names but trim whitespace
+    const trimmedName = newName.trim();
+    const finalName = trimmedName === '' ? 'Unnamed Trip' : trimmedName;
     
     const updatedTrips = trips.map(trip => 
-      trip.id === tripId ? { ...trip, name: newName } : trip
+      trip.id === tripId ? { ...trip, name: finalName } : trip
     );
     
     setTrips(updatedTrips);
     
     // Update selected trip if it's the one being edited
     if (selectedTrip && selectedTrip.id === tripId) {
-      setSelectedTrip({ ...selectedTrip, name: newName });
+      setSelectedTrip({ ...selectedTrip, name: finalName });
     }
   };
   
@@ -271,11 +276,16 @@ export default function ExpenseTracker() {
     const expenseToEdit = expenses[selectedTrip.id].find(exp => exp.id === expenseId);
     if (!expenseToEdit) return;
     
-    const newName = prompt("Edit expense name:", expenseToEdit.name);
-    if (newName === null || newName.trim() === '') return; // User cancelled or entered empty name
+    // Mobile-friendly alternative to prompt
+    const newName = window.prompt("Edit expense name:", expenseToEdit.name);
+    if (newName === null) return; // User cancelled
+    
+    // Allow empty names but trim whitespace
+    const trimmedName = newName.trim();
+    const finalName = trimmedName === '' ? 'Unnamed Expense' : trimmedName;
     
     const updatedTripExpenses = expenses[selectedTrip.id].map(exp => 
-      exp.id === expenseId ? { ...exp, name: newName } : exp
+      exp.id === expenseId ? { ...exp, name: finalName } : exp
     );
     
     const updatedExpenses = {
@@ -384,15 +394,15 @@ export default function ExpenseTracker() {
                 }}
               >
                 <div className="flex justify-between items-center">
-                  <h2 
-                    className="text-lg font-semibold cursor-pointer hover:text-blue-400" 
+                  <button 
+                    className="text-lg font-semibold text-left px-2 py-1 bg-transparent rounded hover:bg-gray-800 active:bg-gray-700 w-3/4 focus:outline-none" 
                     onClick={(e) => {
                       e.stopPropagation();
                       handleEditTripName(trip.id);
                     }}
                   >
                     {trip.name}
-                  </h2>
+                  </button>
                   <div className="flex items-center">
                     <div className="text-right mr-3">
                       <div className="text-xl font-semibold">{trip.currency} {trip.total.toFixed(2)}</div>
@@ -444,19 +454,19 @@ export default function ExpenseTracker() {
       {currentView === 'tripDetail' && selectedTrip && (
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center p-4 border-b border-gray-800">
+          <div className="flex items-center p-4 border-b border-gray-800 gap-2">
             <button 
               className="p-2"
               onClick={() => setCurrentView('tripsList')}
             >
               <Menu size={20} />
             </button>
-            <h1 
-              className="text-xl font-semibold flex-1 text-center cursor-pointer hover:text-blue-400"
+            <button 
+              className="text-xl font-semibold flex-1 px-2 py-1 bg-transparent rounded hover:bg-gray-800 active:bg-gray-700 focus:outline-none text-center"
               onClick={() => handleEditTripName(selectedTrip.id)}
             >
               {selectedTrip.name || 'My Trip'}
-            </h1>
+            </button>
             <div className="w-8"></div> {/* Empty space for balance */}
           </div>
           
@@ -489,15 +499,15 @@ export default function ExpenseTracker() {
                     {getCategoryIcon(expense.category)}
                     
                     <div className="ml-4 flex-1">
-                      <div 
-                        className="font-medium cursor-pointer hover:text-blue-400"
+                      <button 
+                        className="font-medium text-left w-full px-2 py-1 bg-transparent rounded hover:bg-gray-800 active:bg-gray-700 focus:outline-none"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent any parent click handlers
                           handleEditExpense(expense.id);
                         }}
                       >
                         {expense.name}
-                      </div>
+                      </button>
                       <div className="text-sm text-gray-400">{expense.category}</div>
                     </div>
                     
