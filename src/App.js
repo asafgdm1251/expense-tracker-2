@@ -1,32 +1,32 @@
 import { useState, useEffect } from 'react';
-import { Calendar, Search, Menu, Map, Settings, ChevronLeft, Plus, X, Trash2 } from 'lucide-react';
+import { Calendar, Menu, ChevronLeft, Plus, X, Trash2 } from 'lucide-react';
 
 export default function ExpenseTracker() {
   // Default sample data
   const defaultTrips = [
-    { id: 1, name: 'Guatemala', total: 5268.20, dailyAvg: 239.46, currency: 'NZ$', endDate: '2023-03-24' },
-    { id: 2, name: 'Sicily', total: 5677.05, dailyAvg: 258.05, currency: 'NZ$', endDate: '2023-05-15' },
-    { id: 3, name: 'Japan', total: 6823.50, dailyAvg: 325.88, currency: 'NZ$', endDate: '2023-07-10' },
+    { id: 1, name: 'Guatemala', total: 5268.20, dailyAvg: 239.46, currency: 'ILS', endDate: '2023-03-24' },
+    { id: 2, name: 'Sicily', total: 5677.05, dailyAvg: 258.05, currency: 'ILS', endDate: '2023-05-15' },
+    { id: 3, name: 'Japan', total: 6823.50, dailyAvg: 325.88, currency: 'ILS', endDate: '2023-07-10' },
   ];
   
   const defaultExpenses = {
     1: [
-      { id: 1, date: '2023-03-19', name: 'Volcano Hike 🏔️', category: 'Activities', amount: 462.53, currency: 'NZ$', originalAmount: 287.00, originalCurrency: 'US$' },
-      { id: 2, date: '2023-03-18', name: 'Cafe de Artista', category: 'Workspace', amount: 10.30, currency: 'NZ$', originalAmount: 53.00, originalCurrency: 'GTQ' },
-      { id: 3, date: '2023-03-18', name: 'Bus to Antigua', category: 'Transportation', amount: 80.58, currency: 'NZ$', originalAmount: 50.00, originalCurrency: 'US$' },
-      { id: 4, date: '2023-03-18', name: 'Bus Snacks & Drinks', category: 'Groceries', amount: 4.95, currency: 'NZ$', originalAmount: 25.00, originalCurrency: 'GTQ' },
-      { id: 5, date: '2023-03-18', name: 'Lunch 80s Music Cafe', category: 'Restaurants', amount: 24.76, currency: 'NZ$', originalAmount: 120.00, originalCurrency: 'GTQ' },
-      { id: 6, date: '2023-03-18', name: 'Boat to Panajachel', category: 'Transportation', amount: 12.38, currency: 'NZ$', originalAmount: 60.00, originalCurrency: 'GTQ' },
-      { id: 7, date: '2023-03-18', name: 'Antigua Hostel', category: 'Accommodation', amount: 75.87, currency: 'NZ$', originalAmount: 47.00, originalCurrency: 'US$' },
+      { id: 1, date: '2023-03-19', name: 'Volcano Hike 🏔️', category: 'Activities', amount: 462.53, currency: 'ILS', originalAmount: 287.00, originalCurrency: 'USD' },
+      { id: 2, date: '2023-03-18', name: 'Cafe de Artista', category: 'Workspace', amount: 10.30, currency: 'ILS', originalAmount: 53.00, originalCurrency: 'GTQ' },
+      { id: 3, date: '2023-03-18', name: 'Bus to Antigua', category: 'Transportation', amount: 80.58, currency: 'ILS', originalAmount: 50.00, originalCurrency: 'USD' },
+      { id: 4, date: '2023-03-18', name: 'Bus Snacks & Drinks', category: 'Groceries', amount: 4.95, currency: 'ILS', originalAmount: 25.00, originalCurrency: 'GTQ' },
+      { id: 5, date: '2023-03-18', name: 'Lunch 80s Music Cafe', category: 'Restaurants', amount: 24.76, currency: 'ILS', originalAmount: 120.00, originalCurrency: 'GTQ' },
+      { id: 6, date: '2023-03-18', name: 'Boat to Panajachel', category: 'Transportation', amount: 12.38, currency: 'ILS', originalAmount: 60.00, originalCurrency: 'GTQ' },
+      { id: 7, date: '2023-03-18', name: 'Antigua Hostel', category: 'Accommodation', amount: 75.87, currency: 'ILS', originalAmount: 47.00, originalCurrency: 'USD' },
     ],
     2: [
-      { id: 1, date: '2023-05-10', name: 'Taormina Beach Day', category: 'Activities', amount: 55.20, currency: 'NZ$', originalAmount: 32.00, originalCurrency: '€' },
-      { id: 2, date: '2023-05-12', name: 'Mount Etna Tour', category: 'Activities', amount: 189.75, currency: 'NZ$', originalAmount: 110.00, originalCurrency: '€' },
-      { id: 3, date: '2023-05-11', name: 'Seafood Restaurant', category: 'Restaurants', amount: 86.25, currency: 'NZ$', originalAmount: 50.00, originalCurrency: '€' },
+      { id: 1, date: '2023-05-10', name: 'Taormina Beach Day', category: 'Activities', amount: 55.20, currency: 'ILS', originalAmount: 32.00, originalCurrency: '€' },
+      { id: 2, date: '2023-05-12', name: 'Mount Etna Tour', category: 'Activities', amount: 189.75, currency: 'ILS', originalAmount: 110.00, originalCurrency: '€' },
+      { id: 3, date: '2023-05-11', name: 'Seafood Restaurant', category: 'Restaurants', amount: 86.25, currency: 'ILS', originalAmount: 50.00, originalCurrency: '€' },
     ],
     3: [
-      { id: 1, date: '2023-07-05', name: 'Tokyo Hotel', category: 'Accommodation', amount: 1250.00, currency: 'NZ$', originalAmount: 96500.00, originalCurrency: '¥' },
-      { id: 2, date: '2023-07-06', name: 'Shinkansen to Kyoto', category: 'Transportation', amount: 178.50, currency: 'NZ$', originalAmount: 13760.00, originalCurrency: '¥' },
+      { id: 1, date: '2023-07-05', name: 'Tokyo Hotel', category: 'Accommodation', amount: 1250.00, currency: 'ILS', originalAmount: 96500.00, originalCurrency: '¥' },
+      { id: 2, date: '2023-07-06', name: 'Shinkansen to Kyoto', category: 'Transportation', amount: 178.50, currency: 'ILS', originalAmount: 13760.00, originalCurrency: '¥' },
     ],
   };
   
@@ -56,10 +56,12 @@ export default function ExpenseTracker() {
     try {
       const savedSelectedTripId = localStorage.getItem('selectedTripId');
       const id = savedSelectedTripId ? parseInt(savedSelectedTripId, 10) : 1;
-      return trips.find(trip => trip.id === id) || trips[0];
+      const savedTrips = localStorage.getItem('trips');
+      const parsedTrips = savedTrips ? JSON.parse(savedTrips) : defaultTrips;
+      return parsedTrips.find(trip => trip.id === id) || parsedTrips[0] || defaultTrips[0];
     } catch (error) {
       console.error('Error loading selectedTrip from localStorage:', error);
-      return trips[0];
+      return defaultTrips[0];
     }
   });
   
@@ -69,7 +71,7 @@ export default function ExpenseTracker() {
     amount: '',
     category: 'Activities',
     date: new Date().toISOString().substring(0, 10),
-    currency: 'DKK',
+    currency: 'ILS',
   });
   
   // Current view state (trips list, trip detail, new expense)
@@ -94,11 +96,13 @@ export default function ExpenseTracker() {
   
   useEffect(() => {
     try {
-      localStorage.setItem('selectedTripId', selectedTrip.id.toString());
+      if (selectedTrip && selectedTrip.id) {
+        localStorage.setItem('selectedTripId', selectedTrip.id.toString());
+      }
     } catch (error) {
       console.error('Error saving selectedTripId to localStorage:', error);
     }
-  }, [selectedTrip.id]);
+  }, [selectedTrip]);
   
   // Register service worker for offline access
   useEffect(() => {
@@ -116,7 +120,7 @@ export default function ExpenseTracker() {
   }, []);
   
   // Get expenses for the selected trip
-  const tripExpenses = expenses[selectedTrip.id] || [];
+  const tripExpenses = selectedTrip ? (expenses[selectedTrip.id] || []) : [];
   
   // Calculate trip totals
   const calculateTripStats = (tripId) => {
@@ -161,7 +165,7 @@ export default function ExpenseTracker() {
   
   // Add new expense
   const handleAddExpense = () => {
-    if (!newExpense.name || !newExpense.amount) return;
+    if (!newExpense.name || !newExpense.amount || !selectedTrip) return;
     
     const newId = (expenses[selectedTrip.id]?.length || 0) + 1;
     const newExpenseItem = {
@@ -175,35 +179,44 @@ export default function ExpenseTracker() {
       originalCurrency: newExpense.currency,
     };
     
+    const updatedTripExpenses = [...(expenses[selectedTrip.id] || []), newExpenseItem];
     const updatedExpenses = {
       ...expenses,
-      [selectedTrip.id]: [...(expenses[selectedTrip.id] || []), newExpenseItem]
+      [selectedTrip.id]: updatedTripExpenses
     };
     
     setExpenses(updatedExpenses);
     
     // Update trip total and daily average
-    const stats = calculateTripStats(selectedTrip.id);
+    const totalAmount = updatedTripExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+    const dailyAvg = updatedTripExpenses.length > 0 ? (totalAmount / updatedTripExpenses.length).toFixed(2) : 0;
+    
+    const updatedTrip = {
+      ...selectedTrip,
+      total: totalAmount,
+      dailyAvg: dailyAvg
+    };
+    
     const updatedTrips = trips.map(trip => 
-      trip.id === selectedTrip.id 
-        ? { ...trip, total: stats.total, dailyAvg: stats.dailyAvg } 
-        : trip
+      trip.id === selectedTrip.id ? updatedTrip : trip
     );
     
     setTrips(updatedTrips);
-    setSelectedTrip(prev => ({ ...prev, total: stats.total, dailyAvg: stats.dailyAvg }));
+    setSelectedTrip(updatedTrip);
     setCurrentView('tripDetail');
     setNewExpense({
       name: '',
       amount: '',
       category: 'Activities',
       date: new Date().toISOString().substring(0, 10),
-      currency: 'DKK',
+      currency: 'ILS',
     });
   };
   
   // Delete expense
   const handleDeleteExpense = (expenseId) => {
+    if (!selectedTrip) return;
+    
     const updatedTripExpenses = expenses[selectedTrip.id].filter(exp => exp.id !== expenseId);
     
     const updatedExpenses = {
@@ -214,26 +227,60 @@ export default function ExpenseTracker() {
     setExpenses(updatedExpenses);
     
     // Update trip total and daily average
-    const stats = calculateTripStats(selectedTrip.id);
+    const totalAmount = updatedTripExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+    const dailyAvg = updatedTripExpenses.length > 0 ? (totalAmount / updatedTripExpenses.length).toFixed(2) : 0;
+    
+    const updatedTrip = {
+      ...selectedTrip,
+      total: totalAmount,
+      dailyAvg: dailyAvg
+    };
+    
     const updatedTrips = trips.map(trip => 
-      trip.id === selectedTrip.id 
-        ? { ...trip, total: stats.total, dailyAvg: stats.dailyAvg } 
-        : trip
+      trip.id === selectedTrip.id ? updatedTrip : trip
     );
     
     setTrips(updatedTrips);
-    setSelectedTrip(prev => ({ ...prev, total: stats.total, dailyAvg: stats.dailyAvg }));
+    setSelectedTrip(updatedTrip);
+  };
+  
+  // Delete trip
+  const handleDeleteTrip = (tripId) => {
+    // This function is now only called after confirmation has already been shown
+    // Remove trip from trips array
+    const updatedTrips = trips.filter(trip => trip.id !== tripId);
+    
+    // Remove expenses for this trip
+    const updatedExpenses = { ...expenses };
+    delete updatedExpenses[tripId];
+    
+    // Update state
+    setTrips(updatedTrips);
+    setExpenses(updatedExpenses);
+    
+    // Select a different trip if the current one was deleted
+    if (selectedTrip && selectedTrip.id === tripId) {
+      setSelectedTrip(updatedTrips[0]);
+    }
+    
+    // Return to trips list if in detail view of deleted trip
+    if (currentView === 'tripDetail' && selectedTrip && selectedTrip.id === tripId) {
+      setCurrentView('tripsList');
+    }
   };
   
   // Add new trip
   const handleAddTrip = () => {
-    const newId = Math.max(...trips.map(t => t.id)) + 1;
+    // Find max ID or default to 0 if no trips exist
+    const maxId = trips.length > 0 ? Math.max(...trips.map(t => t.id)) : 0;
+    const newId = maxId + 1;
+    
     const newTrip = {
       id: newId,
       name: 'New Trip',
       total: 0,
       dailyAvg: 0,
-      currency: 'NZ$',
+      currency: 'ILS',
       endDate: new Date().toISOString().substring(0, 10)
     };
     
@@ -279,9 +326,7 @@ export default function ExpenseTracker() {
               <Menu size={20} />
             </button>
             <h1 className="text-xl font-semibold flex-1 text-center">My Trips</h1>
-            <button className="p-2">
-              <Settings size={20} />
-            </button>
+            <div className="w-8"></div> {/* Empty space for balance */}
           </div>
           
           {/* Trip List */}
@@ -297,9 +342,26 @@ export default function ExpenseTracker() {
               >
                 <div className="flex justify-between items-center">
                   <h2 className="text-lg font-semibold">{trip.name}</h2>
-                  <div className="text-right">
-                    <div className="text-xl font-semibold">{trip.currency} {trip.total.toFixed(2)}</div>
-                    <div className="text-sm text-gray-400">Trip ended on {trip.endDate}</div>
+                  <div className="flex items-center">
+                    <div className="text-right mr-3">
+                      <div className="text-xl font-semibold">{trip.currency} {trip.total.toFixed(2)}</div>
+                      <div className="text-sm text-gray-400">Trip ended on {trip.endDate}</div>
+                    </div>
+                    <button 
+                      className="p-2 text-red-500"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent trip selection when clicking delete
+                        if (trips.length > 1) {
+                          if (window.confirm("Are you sure you want to delete this trip and all its expenses?")) {
+                            handleDeleteTrip(trip.id);
+                          }
+                        } else {
+                          alert("You cannot delete the only trip. Please create a new trip first.");
+                        }
+                      }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -316,7 +378,7 @@ export default function ExpenseTracker() {
             </button>
           </div>
           
-          {/* Bottom Navigation */}
+          {/* Bottom Navigation - Simplified */}
           <div className="flex justify-around p-2 border-t border-gray-800">
             <button className="p-2 text-red-500">
               <Trash2 size={20} />
@@ -324,21 +386,12 @@ export default function ExpenseTracker() {
             <button className="p-2">
               <Calendar size={20} />
             </button>
-            <button className="p-2">
-              <Search size={20} />
-            </button>
-            <button className="p-2">
-              <Map size={20} />
-            </button>
-            <button className="p-2">
-              <Settings size={20} />
-            </button>
           </div>
         </div>
       )}
       
       {/* Trip Detail View */}
-      {currentView === 'tripDetail' && (
+      {currentView === 'tripDetail' && selectedTrip && (
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center p-4 border-b border-gray-800">
@@ -348,28 +401,32 @@ export default function ExpenseTracker() {
             >
               <Menu size={20} />
             </button>
-            <h1 className="text-xl font-semibold flex-1 text-center">{selectedTrip.name}</h1>
-            <button className="p-2">
-              <Settings size={20} />
-            </button>
+            <h1 className="text-xl font-semibold flex-1 text-center">
+              {selectedTrip.name || 'My Trip'}
+            </h1>
+            <div className="w-8"></div> {/* Empty space for balance */}
           </div>
           
           {/* Trip Stats */}
           <div className="flex p-4 border-b border-gray-800">
             <div className="flex-1">
               <div className="text-sm text-gray-400">Total</div>
-              <div className="text-2xl font-semibold">{selectedTrip.currency} {selectedTrip.total.toFixed(2)}</div>
+              <div className="text-2xl font-semibold">
+                {selectedTrip.currency || 'NZ$'} {(selectedTrip.total || 0).toFixed(2)}
+              </div>
             </div>
             <div className="flex-1 text-right">
               <div className="text-sm text-gray-400">Daily Average</div>
-              <div className="text-2xl font-semibold">{selectedTrip.currency} {selectedTrip.dailyAvg}</div>
+              <div className="text-2xl font-semibold">
+                {selectedTrip.currency || 'NZ$'} {selectedTrip.dailyAvg || '0.00'}
+              </div>
             </div>
           </div>
           
           {/* Trip End Date */}
           <div className="flex items-center p-4 border-b border-gray-800 text-sm text-gray-400">
             <span className="mr-2">🏁</span>
-            <span>Trip ended on {selectedTrip.endDate}</span>
+            <span>Trip ended on {selectedTrip.endDate || 'N/A'}</span>
             <button className="ml-auto text-blue-400">Edit Dates</button>
           </div>
           
@@ -421,22 +478,24 @@ export default function ExpenseTracker() {
             </button>
           </div>
           
-          {/* Bottom Navigation */}
+          {/* Bottom Navigation - Simplified */}
           <div className="flex justify-around p-2 border-t border-gray-800">
-            <button className="p-2 text-red-500">
+            <button 
+              className="p-2 text-red-500"
+              onClick={() => {
+                if (trips.length > 1) {
+                  if (window.confirm("Are you sure you want to delete this trip and all its expenses?")) {
+                    handleDeleteTrip(selectedTrip.id);
+                  }
+                } else {
+                  alert("You cannot delete the only trip. Please create a new trip first.");
+                }
+              }}
+            >
               <Trash2 size={20} />
             </button>
             <button className="p-2">
               <Calendar size={20} />
-            </button>
-            <button className="p-2">
-              <Search size={20} />
-            </button>
-            <button className="p-2">
-              <Map size={20} />
-            </button>
-            <button className="p-2">
-              <Settings size={20} />
             </button>
           </div>
         </div>
@@ -475,9 +534,9 @@ export default function ExpenseTracker() {
                 className="bg-transparent text-4xl w-40 text-right font-bold focus:outline-none"
                 placeholder="0.00"
               />
-              <div className="ml-2">
+                <div className="ml-2">
                 <div className="text-lg font-bold">{newExpense.currency}</div>
-                <div className="text-xs text-gray-400">NZ$ = {newExpense.currency} 4.20</div>
+                <div className="text-xs text-gray-400">ILS = {newExpense.currency} 1.00</div>
               </div>
             </div>
           </div>
@@ -537,35 +596,30 @@ export default function ExpenseTracker() {
                 onChange={(e) => setNewExpense({...newExpense, currency: e.target.value})}
                 className="w-full p-3 bg-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-red-500"
               >
-                <option value="DKK">Danish Krone (DKK)</option>
+                <option value="ILS">Israeli Shekel (₪)</option>
                 <option value="USD">US Dollar (USD)</option>
                 <option value="EUR">Euro (EUR)</option>
                 <option value="GTQ">Guatemalan Quetzal (GTQ)</option>
+                <option value="DKK">Danish Krone (DKK)</option>
               </select>
-            </div>
-            
-            <div className="mb-4">
-              <button className="w-full p-3 bg-gray-800 rounded text-left focus:outline-none">
-                <div className="flex items-center">
-                  <div className="w-6 h-6 mr-2">
-                    📷
-                  </div>
-                  <span>Add Photo</span>
-                </div>
-              </button>
-            </div>
-            
-            <div className="mb-4">
-              <button className="w-full p-3 bg-gray-800 rounded text-left flex items-center justify-between focus:outline-none">
-                <span>Advanced Options</span>
-                <span>▼</span>
-              </button>
             </div>
           </div>
           
           <div className="p-4 border-t border-gray-800">
-            <button className="w-full p-3 text-center text-red-500 font-medium">
-              Delete
+            <button 
+              className="w-full p-3 text-center text-red-500 font-medium"
+              onClick={() => {
+                setCurrentView('tripDetail');
+                setNewExpense({
+                  name: '',
+                  amount: '',
+                  category: 'Activities',
+                  date: new Date().toISOString().substring(0, 10),
+                  currency: 'DKK',
+                });
+              }}
+            >
+              Cancel
             </button>
           </div>
         </div>
